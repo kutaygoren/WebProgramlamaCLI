@@ -1,7 +1,7 @@
 <template>
-    <div id="ekipmanlar">
+    <div id="siparistakip">
     <Header/>
-    <EkipmanlarComp/>
+    <SiparisTakipComp/>
     <KupaSayisi/>
     <Ozelliklerimiz/>
     <Blog/>
@@ -11,21 +11,21 @@
 
 <script>
 import Header from '../components/Header.vue'
-import EkipmanlarComp from '../components/EkipmanlarComp.vue'
+import SiparisTakipComp from '../components/SiparisTakipComp.vue'
 import KupaSayisi from '../components/KupaSayisi.vue'
 import Ozelliklerimiz from '../components/Ozelliklerimiz.vue'
 import Blog from '../components/Blog.vue'
 import Footer from '../components/Footer.vue'
 
 export default {
-  name: 'ekipmanlar',
+  name: 'siparistakip',
   components: {
     Header,
-    EkipmanlarComp,
+    SiparisTakipComp,
     KupaSayisi,
     Ozelliklerimiz,
     Blog,
     Footer
   }
 }
-</script>
+</script>SiparisTakip

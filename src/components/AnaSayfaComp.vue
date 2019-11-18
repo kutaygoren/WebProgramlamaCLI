@@ -223,6 +223,14 @@
 				<a href="/blog" class="btn text-center back-turuncu">TÜMÜNÜ GÖR</a>
 			</section>
 		</div>
+
+		<div v-if="isLoading" class="yukleniyor" style="display: block;">
+              <div class="zeplin"></div>
+        </div>
+
+		<div v-else class="yukleniyor" style="display: none;">
+              <div class="zeplin"></div>
+        </div>
 	</div>
 </template>
 
@@ -230,6 +238,7 @@
 	export default {
 		data() {
 			return {
+				isLoading: true,
 				active: false,
 				cart: [],
 				toplam: 0.00,
@@ -351,12 +360,15 @@
 		},
 
 		created() {
+			setTimeout(() => this.isLoading = false, 1000)
 			this.cart = JSON.parse(localStorage.getItem('sepettekiler' || []));
 			this.toplam = JSON.parse(localStorage.getItem('toplam' || []));
 		},
 
 		methods: {
 			sepeteEkle(index) {
+				this.isLoading = true;
+				setTimeout(() => this.isLoading = false, 500);
 				this.cart.push(this.setler[index]);
 				this.toplam += this.setler[index].fiyat;
 				localStorage.setItem('sepettekiler', JSON.stringify(this.cart));

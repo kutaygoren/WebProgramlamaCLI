@@ -153,6 +153,14 @@
                 </form>
             </div>
         </div>
+
+        <div v-if="isLoading" class="yukleniyor" style="display: block;">
+              <div class="zeplin"></div>
+        </div>
+
+        <div v-else class="yukleniyor" style="display: none;">
+              <div class="zeplin"></div>
+        </div>
     </div>
 </template>
 
@@ -160,12 +168,14 @@
     export default {
         data() {
             return {
+                isLoading: true,
                 cart: [],
                 toplam: 0,
             }
         },
 
         created() {
+            setTimeout(() => this.isLoading = false, 1000);
             this.cart = JSON.parse(localStorage.getItem('sepettekiler' || [] ));
             this.toplam += JSON.parse(localStorage.getItem('toplam' || [] ));
         },
@@ -173,10 +183,10 @@
         methods: {
             sepettenSil(index)
             {
-            this.toplam -= this.cart[index].fiyat;
-            this.cart.splice(index, 1);
-            localStorage.setItem('sepettekiler', JSON.stringify(this.cart));
-            localStorage.setItem('toplam', JSON.stringify(this.toplam));
+                this.toplam -= this.cart[index].fiyat;
+                this.cart.splice(index, 1);
+                localStorage.setItem('sepettekiler', JSON.stringify(this.cart));
+                localStorage.setItem('toplam', JSON.stringify(this.toplam));
             }
         }
     }

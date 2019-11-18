@@ -34,6 +34,14 @@
                 </div>
             </form>
         </div>
+
+        <div v-if="isLoading" class="yukleniyor" style="display: block;">
+              <div class="zeplin"></div>
+        </div>
+
+        <div v-else class="yukleniyor" style="display: none;">
+              <div class="zeplin"></div>
+        </div>
     </div>
 </template>
 
@@ -41,6 +49,7 @@
 export default {
     data() {
         return {
+            isLoading: true,
             mailAdresi: "",
             sifreAl: "",
         }
@@ -56,6 +65,10 @@ export default {
             alert("Hatalı Giriş!")
           }
         }
+    },
+
+    created() {
+        setTimeout(() => this.isLoading = false, 1000)
     }
 }
 </script>

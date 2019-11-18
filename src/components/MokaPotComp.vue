@@ -277,5 +277,26 @@
                 </div>
             </section>
         </div>
+        <div v-if="isLoading" class="yukleniyor" style="display: block;">
+              <div class="zeplin"></div>
+        </div>
+
+        <div v-else class="yukleniyor" style="display: none;">
+              <div class="zeplin"></div>
+        </div>
     </div>
 </template>
+
+<script>
+export default {
+    data() {
+        return {
+            isLoading: true,
+        }
+    },
+
+    created() {
+        setTimeout(() => this.isLoading = false, 1000)
+    }
+}
+</script>

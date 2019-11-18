@@ -193,6 +193,13 @@
                 </div>
             </section>
         </div>
+        <div v-if="isLoading" class="yukleniyor" style="display: block;">
+              <div class="zeplin"></div>
+        </div>
+
+        <div v-else class="yukleniyor" style="display: none;">
+              <div class="zeplin"></div>
+        </div>
     </div>
 </template>
 
@@ -200,6 +207,7 @@
     export default {
         data() {
             return {
+                isLoading: true,
                 cart: [],
                 toplam: 0,
                 hepsi: [],
@@ -320,13 +328,16 @@
         },
 
         created(){
-        this.hepsi = this.chemexUrunler.concat(this.harioUrunler, this.bialettiUrunler);
-        this.sayfa = this.hepsi.slice(this.a,this.b);
-        this.hepsi = this.sayfa;
+            setTimeout(() => this.isLoading = false, 1000)
+            this.hepsi = this.chemexUrunler.concat(this.harioUrunler, this.bialettiUrunler);
+            this.sayfa = this.hepsi.slice(this.a,this.b);
+            this.hepsi = this.sayfa;
         },
 
         methods: {
             kahhveSepeteEkle(index){
+                this.isLoading = true;
+				setTimeout(() => this.isLoading = false, 500);
                 this.cart = JSON.parse(localStorage.getItem('sepettekiler' || [] ));
                 this.toplam += JSON.parse(localStorage.getItem('toplam' || [] ));
                 this.cart.push(this.hepsi[index]);
@@ -336,56 +347,56 @@
             },
 
             hepsiniSec(){
-            this.hepsi = this.chemexUrunler.concat(this.harioUrunler, this.bialettiUrunler);
+                this.hepsi = this.chemexUrunler.concat(this.harioUrunler, this.bialettiUrunler);
             },
 
             chemexSec(){
-            this.hepsi = this.chemexUrunler;
+                this.hepsi = this.chemexUrunler;
             },
 
             harioSec(){
-            this.hepsi = this.harioUrunler;
+                this.hepsi = this.harioUrunler;
             },
 
             bialettiSec(){
-            this.hepsi = this.bialettiUrunler;
+                this.hepsi = this.bialettiUrunler;
             },
 
             artanFiyat(){
-            this.hepsi.sort((a, b) => (a.fiyat > b.fiyat) ? 1 : -1);
+                this.hepsi.sort((a, b) => (a.fiyat > b.fiyat) ? 1 : -1);
             },
 
             azalanFiyat(){
-            this.hepsi.sort((a, b) => (a.fiyat > b.fiyat) ? 1 : -1).reverse();
+                this.hepsi.sort((a, b) => (a.fiyat > b.fiyat) ? 1 : -1).reverse();
             },
 
             nextPage(){
-            if (this.b < 12) {
-                this.hepsi = this.chemexUrunler.concat(this.harioUrunler, this.bialettiUrunler);
-                this.a += this.itemPerPage;
-                this.b += this.itemPerPage;
-                this.sayfa = this.hepsi.slice(this.a, this.b);
-                this.hepsi = this.sayfa;
-            }
+                if (this.b < 12) {
+                    this.hepsi = this.chemexUrunler.concat(this.harioUrunler, this.bialettiUrunler);
+                    this.a += this.itemPerPage;
+                    this.b += this.itemPerPage;
+                    this.sayfa = this.hepsi.slice(this.a, this.b);
+                    this.hepsi = this.sayfa;
+                }
             },
 
             prevPage(){
-            if (this.a > 0) {
-                this.hepsi = this.chemexUrunler.concat(this.harioUrunler, this.bialettiUrunler);
-                this.a -= this.itemPerPage;
-                this.b -= this.itemPerPage;
-                this.sayfa = this.hepsi.slice(this.a, this.b);
-                this.hepsi = this.sayfa;
-            }
+                if (this.a > 0) {
+                    this.hepsi = this.chemexUrunler.concat(this.harioUrunler, this.bialettiUrunler);
+                    this.a -= this.itemPerPage;
+                    this.b -= this.itemPerPage;
+                    this.sayfa = this.hepsi.slice(this.a, this.b);
+                    this.hepsi = this.sayfa;
+                }
             },
 
             adetUp(){
-            this.adet++
+                this.adet++
             },
 
             adetDown(){
-            if (this.adet > 1) {
-                this.adet--
+                if (this.adet > 1) {
+                    this.adet--
             }
         },
     }

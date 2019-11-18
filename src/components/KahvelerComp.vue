@@ -195,6 +195,13 @@
                 </div>
             </section>
         </div>
+        <div v-if="isLoading" class="yukleniyor" style="display: block;">
+              <div class="zeplin"></div>
+        </div>
+
+        <div v-else class="yukleniyor" style="display: none;">
+              <div class="zeplin"></div>
+        </div>
     </div>
 </template>
 
@@ -202,6 +209,7 @@
     export default {
         data() {
             return {
+                isLoading: true,
                 cart: [],
                 toplam: 0,
                 hepsi: [],
@@ -346,6 +354,7 @@
         },
 
         created() {
+            setTimeout(() => this.isLoading = false, 1000)
             this.hepsi = this.bialettiKahveler.concat(this.caffeFrescoKahveler, this.caffeVergnanoKahveler, this
                 .coffeeSapiensKahveler, this.kronotropKahveler);
             this.sayfa = this.hepsi.slice(this.a, this.b);
@@ -354,6 +363,8 @@
 
         methods: {
             kahhveSepeteEkle(index) {
+                this.isLoading = true;
+				setTimeout(() => this.isLoading = false, 500);
                 this.cart = JSON.parse(localStorage.getItem('sepettekiler' || [] ));
                 this.toplam += JSON.parse(localStorage.getItem('toplam' || [] ));
                 this.cart.push(this.hepsi[index]);
