@@ -19,6 +19,8 @@
                     <a href="#" class="dropdown-toggle buyuk1" data-toggle="dropdown" role="button" aria-haspopup="true"
                         aria-expanded="false">Sıralama<span class="caret"></span></a>
                     <ul class="dropdown-menu buyuk1">
+                        <li><a v-on:click="altiliGosterim" href="#">6'lı Göster</a></li>
+                        <li><a v-on:click="ucluGosterim" href="#">3'lü Göster</a></li>
                         <li><a v-on:click="azalanFiyat" href="#">Fiyat Azalan</a></li>
                         <li><a v-on:click="artanFiyat" href="#">Fiyat Artan</a></li>
                         <li><a href="#">Akıllı Sıralama</a></li>
@@ -179,8 +181,6 @@
                                             <span aria-hidden="true">«</span>
                                         </a>
                                     </li>
-                                    <li class="kahve"><a>1</a></li>
-                                    <li class="kahve"><a>2</a></li>
                                     <li class="kahve">
                                         <a v-on:click="nextPage" aria-label="Next">
                                             <span aria-hidden="true">»</span>
@@ -204,6 +204,10 @@
 </template>
 
 <script>
+const chemexUrunlerURL = "http://localhost:3000/chemexUrunler"
+const bialettiUrunlerURL = "http://localhost:3000/bialettiUrunler"
+const harioUrunlerURL = "http://localhost:3000/harioUrunler"
+
     export default {
         data() {
             return {
@@ -216,130 +220,45 @@
                 a: 0,
                 b: 6,
                 adet: 1,
-                chemexUrunler: [
-                    {
-                        isAvailable: true,
-                        markaurl: '/chemex',
-                        sepette: 'Chemex Beyaz Filtre 6-8 Cup',
-                        image: 'https://kahhvecom.imgix.net/urunler/50_1440881161_NU3.jpg',
-                        url: '/chemex-beyaz-filtre-filtreler',
-                        title: 'BEYAZ FILTRE 6-8 CUP',
-                        marka: 'CHEMEX',
-                        fiyat: 74.99 },
-                    {
-                        isAvailable: true,
-                        markaurl: '/chemex',
-                        sepette: 'Chemex Ahşap Tutacaklı 6 Cup',
-                        image: 'https://kahhvecom.imgix.net/urunler/47_1439898391_u6Z.jpg',
-                        url: '/chemex-ahsap-tutacakli-6-cup-kahve-demleme-ekipmanlari',
-                        title: 'AHŞAP TUTACAKLI 6 CUP',
-                        marka: 'CHEMEX',
-                        fiyat: 379.99 },
-                    {
-                        isAvailable: true,
-                        markaurl: '/chemex',
-                        sepette: 'Chemex Ahşap Tutacaklı 8 Cup',
-                        image: 'https://kahhvecom.imgix.net/urunler/133_1468588393_zow.jpg',
-                        url: '/chemex-ahsap-tutacakli-8-cup-kahve-demleme-ekipmanlari',
-                        title: 'AHŞAP TUTACAKLI 8 CUP',
-                        marka: 'CHEMEX',
-                        fiyat: 399.99 },
-
-                    ],
-
-                    bialettiUrunler: [
-                    {
-                        isAvailable: true,
-                        markaurl: '/bialetti',
-                        sepette: 'Bialetti Moka Pot Express Kırmızı 1 Cup',
-                        image: 'https://kahhvecom.imgix.net/urunler/751_1561111234_Gug.jpg',
-                        url: '/bialetti-moka-pot-express-kirmizi-1-cup-moka-pot',
-                        title: 'MOKA POT EXPRESS KIRMIZI 1 CUP',
-                        marka: 'BIALETTI',
-                        fiyat: 149.99 },
-                    {
-                        isAvailable: true,
-                        markaurl: '/bialetti',
-                        sepette: 'Bialetti Orzo Express',
-                        image: 'https://kahhvecom.imgix.net/urunler/456_1492581342_zGf.jpg',
-                        url: '/bialetti-orzo-express-kahve-demleme-ekipmanlari',
-                        title: 'ORZO EXPRESS',
-                        marka: 'BIALETTI',
-                        fiyat: 129.99 },
-                    {
-                        isAvailable: false,
-                        markaurl: '/bialetti',
-                        sepette: 'Bialetti Moka Pot Alpina 3 Cup',
-                        image: 'https://kahhvecom.imgix.net/urunler/76_1444578738_YZI.jpg',
-                        url: '/bialetti-moka-pot-alpini-3-cup-kahve-demleme-ekipmanlari',
-                        title: 'MOKA POT ALPINA 3 CUP',
-                        marka: 'BIALETTI',
-                        fiyat: 219.99 },
-                    ],
-
-                    harioUrunler: [
-                    {
-                        isAvailable: true,
-                        markaurl: '/hario',
-                        sepette: 'Hario V60 Tanışma Seti',
-                        image: 'https://kahhvecom.imgix.net/urunler/112_1569671179_VwG.jpg',
-                        url: '/hario-set-kahve-demleme-ekipmanlari',
-                        title: 'V60 TANIŞMA SETI',
-                        marka: 'HARIO',
-                        fiyat: 229.99 },
-                    {
-                        isAvailable: false,
-                        markaurl: '/hario',
-                        sepette: 'Hario Mill Skerton Tanışma Seti',
-                        image: 'https://kahhvecom.imgix.net/urunler/857_1569938448_bEm.jpg',
-                        url: '/hario-mini-mill-skerton-tanisma-seti-kahve-degirmenleri',
-                        title: 'MINI MILL SKERTON TANIŞMA SETI',
-                        marka: 'HARIO',
-                        fiyat: 269.99 },
-                    {
-                        isAvailable: false,
-                        markaurl: '/hario',
-                        sepette: 'Hario V60 Tanışma Seti Barista',
-                        image: 'https://kahhvecom.imgix.net/urunler/852_1569673649_CUv.jpg',
-                        url: '/hario-v60-tanisma-seti-barista-kahve-demleme-ekipmanlari',
-                        title: 'V60 TANIŞMA SETI BARİSTA',
-                        marka: 'HARIO',
-                        fiyat: 874.99 },
-                    {
-                        isAvailable: false,
-                        markaurl: '/hario',
-                        sepette: 'Hario Tanışma Seti Pro',
-                        image: 'https://kahhvecom.imgix.net/urunler/851_1569673369_TX7.jpg',
-                        url: '/hario-v60-tanisma-seti-pro-kahve-demleme-ekipmanlari',
-                        title: 'V60 TANIŞMA SETI PRO',
-                        marka: 'HARIO',
-                        fiyat: 479.99 },
-                    {
-                        isAvailable: true,
-                        markaurl: '/hario',
-                        sepette: 'Hario V60 02 Seramik Dripper Beyaz',
-                        image: 'https://kahhvecom.imgix.net/urunler/94_1453646682_GML.jpg',
-                        url: '/hario-v60-02-dripper-beyaz-seramik-kahve-demleme-ekipmanlari',
-                        title: 'V60 02 SERAMIK DRIPPER BEYAZ',
-                        marka: 'HARIO',
-                        fiyat: 149.99 },
-                    ]
+                chemexUrunler: [],
+                bialettiUrunler: [],
+                harioUrunler: []
             }
+        },
+
+        mounted() {
+            fetch(chemexUrunlerURL)
+			.then(response => response.json())
+			.then(result => {
+			this.chemexUrunler = result;
+            });
+
+            fetch(harioUrunlerURL)
+			.then(response => response.json())
+			.then(result => {
+			this.harioUrunler = result;
+            });
+            
+            fetch(bialettiUrunlerURL)
+			.then(response => response.json())
+			.then(result => {
+            this.bialettiUrunler = result;
+            this.hepsi = this.chemexUrunler.concat(this.harioUrunler, this.bialettiUrunler);
+            this.sayfa = this.hepsi.slice(this.a,this.b);
+            this.hepsi = this.sayfa;
+            });
         },
 
         created(){
             setTimeout(() => this.isLoading = false, 1000)
-            this.hepsi = this.chemexUrunler.concat(this.harioUrunler, this.bialettiUrunler);
-            this.sayfa = this.hepsi.slice(this.a,this.b);
-            this.hepsi = this.sayfa;
+            this.cart = JSON.parse(localStorage.getItem('sepettekiler' || [] ));
+            this.toplam += JSON.parse(localStorage.getItem('toplam' || [] ));
         },
 
         methods: {
             kahhveSepeteEkle(index){
                 this.isLoading = true;
 				setTimeout(() => this.isLoading = false, 500);
-                this.cart = JSON.parse(localStorage.getItem('sepettekiler' || [] ));
-                this.toplam += JSON.parse(localStorage.getItem('toplam' || [] ));
                 this.cart.push(this.hepsi[index]);
                 this.toplam += this.hepsi[index].fiyat;
                 localStorage.setItem('sepettekiler', JSON.stringify(this.cart));
@@ -389,6 +308,23 @@
                     this.hepsi = this.sayfa;
                 }
             },
+
+            altiliGosterim() {
+                this.b = 6;
+                this.itemPerPage = 6;
+                this.hepsi = this.chemexUrunler.concat(this.harioUrunler, this.bialettiUrunler);
+                this.sayfa = this.hepsi.slice(this.a, this.b);
+                    this.hepsi = this.sayfa;
+            },
+
+            ucluGosterim() {
+                this.b = 3;
+                this.itemPerPage = 3;
+                this.hepsi = this.chemexUrunler.concat(this.harioUrunler, this.bialettiUrunler);
+                this.sayfa = this.hepsi.slice(this.a, this.b);
+                this.hepsi = this.sayfa;
+            },
+
 
             adetUp(){
                 this.adet++

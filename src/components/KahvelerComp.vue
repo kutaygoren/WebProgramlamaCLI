@@ -19,6 +19,8 @@
                     <a href="#" class="dropdown-toggle buyuk1" data-toggle="dropdown" role="button" aria-haspopup="true"
                         aria-expanded="false">Sıralama<span class="caret"></span></a>
                     <ul class="dropdown-menu buyuk1">
+                        <li><a v-on:click="altiliGosterim" href="#">6'lı Göster</a></li>
+                        <li><a v-on:click="ucluGosterim" href="#">3'lü Göster</a></li>
                         <li><a v-on:click="azalanFiyat" href="#">Fiyat Azalan</a></li>
                         <li><a v-on:click="artanFiyat" href="#">Fiyat Artan</a></li>
                         <li><a href="#">Akıllı Sıralama</a></li>
@@ -131,8 +133,6 @@
                                             <span aria-hidden="true">«</span>
                                         </a>
                                     </li>
-                                    <li class="kahve"><a>1</a></li>
-                                    <li class="kahve"><a>2</a></li>
                                     <li class="kahve">
                                         <a v-on:click="nextPage" aria-label="Next">
                                             <span aria-hidden="true">»</span>
@@ -206,6 +206,12 @@
 </template>
 
 <script>
+const bialettiKahvelerURL = "http://localhost:3000/bialettiKahveler"
+const caffeVergnanoKahvelerURL = "http://localhost:3000/caffeVergnanoKahveler"
+const caffeFrescoKahvelerURL = "http://localhost:3000/caffeFrescoKahveler"
+const coffeeSapiensKahvelerURL = "http://localhost:3000/coffeeSapiensKahveler"
+const kronotropKahvelerURL = "http://localhost:3000/kronotropKahveler"
+
     export default {
         data() {
             return {
@@ -220,153 +226,60 @@
                 kategoriAcma: false,
                 noktalar: true,
 
-                bialettiKahveler: [{
-                        isAvailable: true,
-                        markaurl: '/bialetti',
-                        sepette: 'Bialetti Gusto Dolce Öğütülmüş Kahve 250 gram',
-                        image: 'https://kahhvecom.imgix.net/urunler/737_1537871362_3NA.png',
-                        url: '/bialetti-gusto-dolce-ogutulmus-kahve-250-gram-kahveler',
-                        title: 'Bialetti Gusto Dolce Öğütülmüş Kahve 250 gram',
-                        marka: 'Bialetti',
-                        fiyat: 79.99
-                    },
-                    {
-                        isAvailable: true,
-                        markaurl: '/bialetti',
-                        sepette: 'Bialetti Gusto Intenso Öğütülmüş Kahve 250 gram',
-                        image: 'https://kahhvecom.imgix.net/urunler/739_1542778084_QDU.jpg',
-                        url: '/bialetti-caffe-macinato--kahveler',
-                        title: 'Bialetti Gusto Intenso Öğütülmüş Kahve 250 gram',
-                        marka: 'Bialetti',
-                        fiyat: 79.99
-                    },
-                ],
-
-                caffeVergnanoKahveler: [{
-                        isAvailable: true,
-                        markaurl: '/caffe-vergnano',
-                        sepette: 'Caffe Vergnano Espresso 1882',
-                        image: 'https://kahhvecom.imgix.net/urunler/119_1441352400_zn1.jpg',
-                        url: '/vergnano-espresso-1882-kahveler',
-                        title: 'Espresso 1882',
-                        marka: 'Caffe Vergnano',
-                        fiyat: 62.99
-                    },
-                    {
-                        isAvailable: true,
-                        markaurl: '/caffe-vergnano',
-                        sepette: 'Caffe Fresco Arabica Çekirdek Kahvesi',
-                        image: 'https://kahhvecom.imgix.net/urunler/122_1563525190_Pfu.png',
-                        url: '/vergnano-arabica-cekirdek-kahvesi-kahveler',
-                        title: 'Arabica Çekirdek Kahvesi',
-                        marka: 'Caffe Fresco',
-                        fiyat: 51.99
-                    },
-                    {
-                        isAvailable: true,
-                        markaurl: '/caffe-vergnano',
-                        sepette: 'Caffe Fresco Arabica Moka',
-                        image: 'https://kahhvecom.imgix.net/urunler/120_1441352749_Tvd.jpg',
-                        url: '/vergnano-arabica-moka-kahveler',
-                        title: 'Arabica Moka',
-                        marka: 'Caffe Fresco',
-                        fiyat: 51.99
-                    },
-                    {
-                        isAvailable: true,
-                        markaurl: '/caffe-vergnano',
-                        sepette: 'Caffe Fresco Arabica Espresso',
-                        image: 'https://kahhvecom.imgix.net/urunler/121_1443548403_g5G.jpg',
-                        url: '/vergnano-arabica-espresso',
-                        title: 'Arabica Espresso',
-                        marka: 'Caffe Fresco',
-                        fiyat: 51.99
-                    },
-                ],
-
-                caffeFrescoKahveler: [{
-                        isAvailable: true,
-                        markaurl: '/caffe-fresco',
-                        sepette: 'Caffe Fresco All Day Blend',
-                        image: 'https://kahhvecom.imgix.net/urunler/796_1550056308_k43.jpg',
-                        url: '/caffe-fresco-all-day-blend-kahveler',
-                        title: 'All Day Blend',
-                        marka: 'Caffe Fresco',
-                        fiyat: 21.99
-                    },
-                    {
-                        isAvailable: true,
-                        markaurl: '/caffe-fresco',
-                        sepette: 'Caffe Fresco Espresso Blend 1 KG',
-                        image: 'https://kahhvecom.imgix.net/urunler/811_1565851189_uQt.jpg',
-                        url: '/caffe-fresco-espresso-blend-1-kg-kahveler',
-                        title: 'Caffe Fresco Espresso Blend 1 KG',
-                        marka: 'Caffe Fresco',
-                        fiyat: 84.99
-                    },
-                    {
-                        isAvailable: true,
-                        markaurl: '/caffe-fresco',
-                        sepette: 'Caffe Fresco All Day Blend 1 KG',
-                        image: 'https://kahhvecom.imgix.net/urunler/812_1565087080_BHZ.jpg',
-                        url: '/caffe-fresco-all-day-blend-1-kg-kahveler',
-                        title: 'All Day Blend 1 KG',
-                        marka: 'Caffe Fresco',
-                        fiyat: 84.99
-                    },
-                ],
-
-                coffeeSapiensKahveler: [{
-                        isAvailable: true,
-                        markaurl: '/coffee-sapiens',
-                        sepette: 'Coffee Sapiens Evolution Blend',
-                        image: 'https://kahhvecom.imgix.net/urunler/55_1521108632_Txj.jpg',
-                        url: '/coffee-sapiens-evolution-blend-kahveler',
-                        title: 'Evolution Blend',
-                        marka: 'Coffee Sapiens',
-                        fiyat: 39.99
-                    },
-                    {
-                        isAvailable: true,
-                        markaurl: '/coffee-sapiens',
-                        sepette: 'Coffee Sapiens Mutation Blend',
-                        image: 'https://kahhvecom.imgix.net/urunler/54_1521108565_3mn.jpg',
-                        url: '/coffee-sapiens-mutation-blend-kahveler',
-                        title: 'Mutation Blend',
-                        marka: 'Coffee Sapiens',
-                        fiyat: 49.99
-                    },
-                ],
-
-                kronotropKahveler: [
-                    {
-                    isAvailable: true,
-                    markaurl: '/kronotrop',
-                    sepette: 'Kronotrop Endonezya Frinsa Collective',
-                    image: 'https://kahhvecom.imgix.net/urunler/843_1567000093_yE5.jpg',
-                    url: '/kronotrop-endonezya-frinsa-collective-kahveler',
-                    title: 'Endonezya Frinsa Collective',
-                    marka: 'Kronotrop',
-                    fiyat: 59.99
-                    }, 
-                ]
+                bialettiKahveler: [],
+                caffeVergnanoKahveler: [],
+                caffeFrescoKahveler: [],
+                coffeeSapiensKahveler: [],
+                kronotropKahveler: []
             }
         },
 
-        created() {
-            setTimeout(() => this.isLoading = false, 1000)
+        mounted(){
+            fetch(coffeeSapiensKahvelerURL)
+			.then(response => response.json())
+			.then(result => {
+			this.coffeeSapiensKahveler = result;
+            });
+
+            fetch(kronotropKahvelerURL)
+			.then(response => response.json())
+			.then(result => {
+			this.kronotropKahveler = result;
+            });
+
+            fetch(caffeFrescoKahvelerURL)
+			.then(response => response.json())
+			.then(result => {
+			this.caffeFrescoKahveler = result;
+            });
+
+            fetch(caffeVergnanoKahvelerURL)
+			.then(response => response.json())
+			.then(result => {
+			this.caffeVergnanoKahveler = result;
+            });
+
+            fetch(bialettiKahvelerURL)
+			.then(response => response.json())
+			.then(result => {
+            this.bialettiKahveler = result;
             this.hepsi = this.bialettiKahveler.concat(this.caffeFrescoKahveler, this.caffeVergnanoKahveler, this
                 .coffeeSapiensKahveler, this.kronotropKahveler);
             this.sayfa = this.hepsi.slice(this.a, this.b);
             this.hepsi = this.sayfa;
+            });
+        },
+
+        created() {
+            setTimeout(() => this.isLoading = false, 1000)
+            this.cart = JSON.parse(localStorage.getItem('sepettekiler' || [] ));
+            this.toplam += JSON.parse(localStorage.getItem('toplam' || [] ));
         },
 
         methods: {
             kahhveSepeteEkle(index) {
                 this.isLoading = true;
 				setTimeout(() => this.isLoading = false, 500);
-                this.cart = JSON.parse(localStorage.getItem('sepettekiler' || [] ));
-                this.toplam += JSON.parse(localStorage.getItem('toplam' || [] ));
                 this.cart.push(this.hepsi[index]);
                 this.toplam += this.hepsi[index].fiyat;
                 localStorage.setItem('sepettekiler', JSON.stringify(this.cart));
@@ -421,6 +334,24 @@
                     this.sayfa = this.hepsi.slice(this.a, this.b);
                     this.hepsi = this.sayfa;
                 }
+            },
+
+            altiliGosterim() {
+                this.b = 6;
+                this.itemPerPage = 6;
+                this.hepsi = this.bialettiKahveler.concat(this.caffeFrescoKahveler, this.caffeVergnanoKahveler, this
+                        .coffeeSapiensKahveler, this.kronotropKahveler);
+                this.sayfa = this.hepsi.slice(this.a, this.b);
+                this.hepsi = this.sayfa;
+            },
+
+            ucluGosterim() {
+                this.b = 3;
+                this.itemPerPage = 3;
+                this.hepsi = this.bialettiKahveler.concat(this.caffeFrescoKahveler, this.caffeVergnanoKahveler, this
+                        .coffeeSapiensKahveler, this.kronotropKahveler);
+                this.sayfa = this.hepsi.slice(this.a, this.b);
+                this.hepsi = this.sayfa;
             },
 
             kategoriUzat() {

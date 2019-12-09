@@ -79,7 +79,7 @@
 					</div>
 				</div>
 			</div>
-			<a href="kahve-tanisma-setleri.html" class="btn text-center back-turuncu">TÜMÜNÜ GÖR</a>
+			<router-link to="/tanisma-setleri" class="btn text-center back-turuncu">TÜMÜNÜ GÖR</router-link>
 		</section>
 
 		<div class="back-gray">
@@ -145,7 +145,7 @@
 					</div>
 				</div>
 			</div>
-			<a href="kahveler.html" class="btn text-center back-turuncu">TÜMÜNÜ GÖR</a>
+			<router-link to="/kahhveler" class="btn text-center back-turuncu">TÜMÜNÜ GÖR</router-link>
 		</section>
 
 		<div class="back-gray">
@@ -173,7 +173,7 @@
 						</div>
 					</div>
 				</div>
-				<a href="kahve-demleme-ekipmanlari.html" class="btn text-center">TÜMÜNÜ GÖR</a>
+				<router-link to="/ekipmanlar" class="btn text-center back-turuncu">TÜMÜNÜ GÖR</router-link>
 			</section>
 		</div>
 
@@ -224,7 +224,15 @@
 			</section>
 		</div>
 
-		<div v-if="isLoading" class="yukleniyor" style="display: block;">
+		<div v-if="isLoading" class="yukleniyor-ana" style="display: block;">
+              <div class="zeplin"></div>
+        </div>
+
+		<div v-else class="yukleniyor-ana" style="display: none;">
+              <div class="zeplin"></div>
+        </div>
+
+		<div v-if="isLoadingS" class="yukleniyor" style="display: block;">
               <div class="zeplin"></div>
         </div>
 
@@ -235,140 +243,55 @@
 </template>
 
 <script>
+const popKahvelerURL = "http://localhost:3000/popKahveler"
+const popEkipmanlarURL = "http://localhost:3000/popEkipmanlar"
+const setlerURL = "http://localhost:3000/setler"
+
 	export default {
 		data() {
 			return {
 				isLoading: true,
+				isLoadingS: true,
 				active: false,
 				cart: [],
 				toplam: 0.00,
-				popKahveler: [
-					{
-						markaurl: '/caffe-fresco',
-						sepette: 'Caffe Fresco All Day Blend',
-						image: 'https://kahhvecom.imgix.net/urunler/796_1550056308_k43.jpg',
-						url: '/caffe-fresco-all-day-blend-kahveler',
-						title: 'ALL DAY BLEND',
-						marka: 'CAFFE FRESCO',
-						fiyat: 21.99
-					},
-					{
-						markaurl: '/coffee-sapiens',
-						sepette: 'Coffee Sapiens Evolution Blend',
-						image: 'https://kahhvecom.imgix.net/urunler/55_1521108632_Txj.jpg',
-						url: '/coffee-sapiens-evolution-blend-kahveler',
-						title: 'EVOLUTION BLEND',
-						marka: 'COFFEE SAPIENS',
-						fiyat: 39.99
-					},
-					{
-						markaurl: '/cool-beans',
-						sepette: 'Cool Beans Costa Rica',
-						image: 'https://kahhvecom.imgix.net/urunler/67_1444945568_pN1.jpg',
-						url: '/cool-beans-costa-rica-kahveler',
-						title: 'COSTA RICA',
-						marka: 'COOL BEANS',
-						fiyat: 44.99
-					},
-					{
-						markaurl: '/urban-grind',
-						sepette: 'Urban Grind Guatemala Santa Barbara',
-						image: 'https://kahhvecom.imgix.net/urunler/668_1550484839_u9J.jpg',
-						url: '/urban-grind-guatemala-santa-barbara-kahveler',
-						title: 'GUATEMALA SANTA BARBARA',
-						marka: 'URBAN GRIND',
-						fiyat: 49.99
-					},
-				],
-
-				popEkipmanlar: [{
-						markaurl: '/hario',
-						sepette: 'Hario Kettle Buono 1.0 LT',
-						image: 'https://kahhvecom.imgix.net/urunler/361_1469013202_cZg.jpg',
-						url: '/hario-kettle-buono-10-lt-kahve-demleme-ekipmanlari',
-						title: 'KETTLE BUONO 1.0 LT',
-						marka: 'HARIO',
-						fiyat: 279.99
-					},
-					{
-						markaurl: '/hario',
-						sepette: 'Hario Mizudashi Soğuk Demleme',
-						image: 'https://kahhvecom.imgix.net/urunler/198_1444597118_LnY.jpg',
-						url: '/hario-mizudashi-soguk-demleme-kahve-demleme-ekipmanlari',
-						title: 'MIZUDASHI SOĞUK DEMLEME',
-						marka: 'HARIO',
-						fiyat: 139.99
-					},
-					{
-						markaurl: '/hario',
-						sepette: 'Hario Mini Mill Plus Skerton Öğütücü',
-						image: 'https://kahhvecom.imgix.net/urunler/751_1561111234_Gug.jpg',
-						url: '/hario-mini-mill-plus-skerton-ogutucu-kahve-degirmenleri',
-						title: 'MINI MILL PLUS SKERTON ÖĞÜTÜCÜ',
-						marka: 'HARIO',
-						fiyat: 229.99
-					},
-					{
-						markaurl: '/bialetti',
-						sepette: 'Bialetti Moka Pot Kirmizi 1 Cup',
-						image: 'https://kahhvecom.imgix.net/urunler/757_1543556047_ZS1.jpg',
-						url: '/bialetti-moka-pot-express-kirmizi-1-cup-moka-pot',
-						title: 'MOKA POT EXPRESS KIRMIZI 1 CUP',
-						marka: 'BIALETTI',
-						fiyat: 149.99
-					},
-				],
-
-				setler: [{
-						markaurl: '/aeropress',
-						sepette: 'Aeropress Tanışma Seti',
-						image: 'https://kahhvecom.imgix.net/urunler/789_1569671404_ASZ.jpg',
-						url: '/aeropress-aeropress-tanisma-seti-kahve-tanisma-setleri',
-						title: 'AEROPRESS TANIŞMA SETI',
-						marka: 'AEROPRESS',
-						fiyat: 329.99
-					},
-					{
-						markaurl: '/kahhvecom',
-						sepette: 'Kahhve Tanışma Seti',
-						image: 'https://kahhvecom.imgix.net/urunler/92_1569671134_BG8.jpg',
-						url: '/kahhvecom-tanisma-seti-kahveler',
-						title: 'KAHHVE TANIŞMA SETI',
-						marka: 'KAHHVECOM',
-						fiyat: 49.99
-					},
-					{
-						markaurl: '/hario',
-						sepette: 'Hario V60 Tanışma Seti',
-						image: 'https://kahhvecom.imgix.net/urunler/112_1569671179_VwG.jpg',
-						url: '/hario-set-kahve-demleme-ekipmanlari',
-						title: 'V60 TANIŞMA SETI',
-						marka: 'HARIO',
-						fiyat: 229.99
-					},
-					{
-						markaurl: '/bialetti',
-						sepette: 'Bialetti Moka Pot Tanışma Seti',
-						image: 'https://kahhvecom.imgix.net/urunler/135_1569671319_5Up.jpg',
-						url: '/bialetti-moka-pot-baslangic-seti-kahve-demleme-ekipmanlari',
-						title: 'MOKA POT TANIŞMA SETI 3 CUP',
-						marka: 'BIALETTI',
-						fiyat: 219.99
-					},
-				]
+				popKahveler: [],
+				popEkipmanlar: [],
+				setler: []
 			}
+		},
+
+		mounted() {
+			fetch(popKahvelerURL)
+			.then(response => response.json())
+			.then(result => {
+			this.popKahveler = result;
+			});
+
+			fetch(popEkipmanlarURL)
+			.then(response => response.json())
+			.then(result => {
+			this.popEkipmanlar = result;
+			});
+
+			fetch(setlerURL)
+			.then(response => response.json())
+			.then(result => {
+			this.setler = result;
+			});
 		},
 
 		created() {
 			setTimeout(() => this.isLoading = false, 1000)
+			setTimeout(() => this.isLoadingS = false, 2000)
 			this.cart = JSON.parse(localStorage.getItem('sepettekiler' || []));
 			this.toplam = JSON.parse(localStorage.getItem('toplam' || []));
 		},
 
 		methods: {
 			sepeteEkle(index) {
-				this.isLoading = true;
-				setTimeout(() => this.isLoading = false, 500);
+				this.isLoadingS = true;
+				setTimeout(() => this.isLoadingS = false, 500);
 				this.cart.push(this.setler[index]);
 				this.toplam += this.setler[index].fiyat;
 				localStorage.setItem('sepettekiler', JSON.stringify(this.cart));

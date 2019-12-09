@@ -103,134 +103,63 @@
 </template>
 
 <script>
+const kahhvesetlerURL = "http://localhost:3000/kahhvesetler"
+const bialettiSetlerURL = "http://localhost:3000/bialettiSetler"
+const aeropressSetlerURL = "http://localhost:3000/aeropressSetler"
+const harioSetlerURL = "http://localhost:3000/harioSetler"
+
     export default {
         data() {
             return {
                 isLoading: true,
                 cart: [],
                 toplam: 0,
+                kahhvesetler: [],
+                bialettiSetler: [],
+                aeropressSetler: [],
+                harioSetler: [],
+                
                 hepsi: [],
-
-                kahhvesetler: [{
-                    isAvailable: true,
-                    markaurl: '/kahhvecom',
-                    sepette: 'Kahhve Tanışma Seti',
-                    image: 'https://kahhvecom.imgix.net/urunler/92_1569671134_BG8.jpg',
-                    url: '/kahhvecom-tanisma-seti-kahveler',
-                    title: 'KAHHVE TANIŞMA SETI',
-                    marka: 'KAHHVECOM',
-                    fiyat: 49.99
-                }, ],
-
-                bialettiSetler: [{
-                        isAvailable: true,
-                        markaurl: '/bialetti',
-                        sepette: 'Bialetti Moka Pot Tanışma Seti 3 Cup',
-                        image: 'https://kahhvecom.imgix.net/urunler/135_1569671319_5Up.jpg',
-                        url: '/bialetti-moka-pot-baslangic-seti-kahve-demleme-ekipmanlari',
-                        title: 'MOKA POT TANIŞMA SETI 3 CUP',
-                        marka: 'BIALETTI',
-                        fiyat: 219.99
-                    },
-                    {
-                        isAvailable: true,
-                        markaurl: '/bialetti',
-                        sepette: 'Bialetti Moka Pot Tanışma Seti 2 Cup',
-                        image: 'https://kahhvecom.imgix.net/urunler/778_1569671374_THD.jpg',
-                        url: '/bialetti-moka-pot-tanisma-seti-2-cup-kahve-demleme-ekipmanlari',
-                        title: 'MOKA POT TANIŞMA SETI 2 CUP',
-                        marka: 'BIALETTI',
-                        fiyat: 199.99
-                    },
-                    {
-                        isAvailable: false,
-                        markaurl: '/bialetti',
-                        sepette: 'Bialetti Moka Pot Tanışma Seti 3 Cup Pro',
-                        image: 'https://kahhvecom.imgix.net/urunler/850_1569672595_xp6.jpg',
-                        url: '/bialetti-moka-pot-tanisma-seti-3-cup--pro-moka-pot',
-                        title: 'MOKA POT TANIŞMA SETI 3 CUP PRO',
-                        marka: 'BIALETTI',
-                        fiyat: 474.99
-                    },
-                ],
-
-                aeropressSetler: [{
-                        isAvailable: true,
-                        markaurl: '/aeropress',
-                        sepette: 'Aeropress Tanışma Seti',
-                        image: 'https://kahhvecom.imgix.net/urunler/789_1569671404_ASZ.jpg',
-                        url: '/aeropress-aeropress-tanisma-seti-kahve-tanisma-setleri',
-                        title: 'AEROPRESS TANIŞMA SETI',
-                        marka: 'AEROPRESS',
-                        fiyat: 329.99
-                    },
-                    {
-                        isAvailable: false,
-                        markaurl: '/aeropress',
-                        sepette: 'Aeropress Tanışma Seti Pro',
-                        image: 'https://kahhvecom.imgix.net/urunler/855_1569674802_kdG.jpg',
-                        url: '/aeropress-aeropress-tanisma-seti-pro-kahve-demleme-ekipmanlari',
-                        title: 'AEROPRESS TANIŞMA SETI PRO',
-                        marka: 'AEROPRESS',
-                        fiyat: 579.99
-                    },
-                ],
-
-                harioSetler: [{
-                        isAvailable: true,
-                        markaurl: '/hario',
-                        sepette: 'Hario V60 Tanışma Seti',
-                        image: 'https://kahhvecom.imgix.net/urunler/112_1569671179_VwG.jpg',
-                        url: '/hario-set-kahve-demleme-ekipmanlari',
-                        title: 'V60 TANIŞMA SETI',
-                        marka: 'HARIO',
-                        fiyat: 229.99
-                    },
-                    {
-                        isAvailable: false,
-                        markaurl: '/hario',
-                        sepette: 'Hario Mill Skerton Tanışma Seti',
-                        image: 'https://kahhvecom.imgix.net/urunler/857_1569938448_bEm.jpg',
-                        url: '/hario-mini-mill-skerton-tanisma-seti-kahve-degirmenleri',
-                        title: 'MINI MILL SKERTON TANIŞMA SETI',
-                        marka: 'HARIO',
-                        fiyat: 269.99
-                    },
-                    {
-                        isAvailable: false,
-                        markaurl: '/hario',
-                        sepette: 'Hario V60 Tanışma Seti Barista',
-                        image: 'https://kahhvecom.imgix.net/urunler/852_1569673649_CUv.jpg',
-                        url: '/hario-v60-tanisma-seti-barista-kahve-demleme-ekipmanlari',
-                        title: 'V60 TANIŞMA SETI BARİSTA',
-                        marka: 'HARIO',
-                        fiyat: 874.99
-                    },
-                    {
-                        isAvailable: false,
-                        markaurl: '/hario',
-                        sepette: 'Hario Tanışma Seti Pro',
-                        image: 'https://kahhvecom.imgix.net/urunler/851_1569673369_TX7.jpg',
-                        url: '/hario-v60-tanisma-seti-pro-kahve-demleme-ekipmanlari',
-                        title: 'V60 TANIŞMA SETI PRO',
-                        marka: 'HARIO',
-                        fiyat: 479.99
-                    },
-                ]
             }
+        },
+
+        mounted(){
+            fetch(bialettiSetlerURL)
+			.then(response => response.json())
+			.then(result => {
+			this.bialettiSetler = result;
+            });
+
+            fetch(aeropressSetlerURL)
+			.then(response => response.json())
+			.then(result => {
+			this.aeropressSetler = result;
+            });
+
+            fetch(harioSetlerURL)
+			.then(response => response.json())
+			.then(result => {
+			this.harioSetler = result;
+            });
+
+            fetch(kahhvesetlerURL)
+			.then(response => response.json())
+			.then(result => {
+            this.kahhvesetler = result;
+            this.hepsi = this.kahhvesetler.concat(this.bialettiSetler, this.harioSetler, this.aeropressSetler);
+            });
         },
 
         created() {
             setTimeout(() => this.isLoading = false, 1000);
-            this.hepsi = this.kahhvesetler.concat(this.bialettiSetler, this.harioSetler, this.aeropressSetler);
+            this.cart = JSON.parse(localStorage.getItem('sepettekiler' || []));
+            this.toplam += JSON.parse(localStorage.getItem('toplam' || []));
         },
 
         methods: {
             kahhveSepeteEkle(index) {
                 this.isLoading = true;
 				setTimeout(() => this.isLoading = false, 500);
-                this.cart = JSON.parse(localStorage.getItem('sepettekiler' || []));
-                this.toplam += JSON.parse(localStorage.getItem('toplam' || []));
                 this.cart.push(this.hepsi[index]);
                 this.toplam += this.hepsi[index].fiyat;
                 localStorage.setItem('sepettekiler', JSON.stringify(this.cart));
